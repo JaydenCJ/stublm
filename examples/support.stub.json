@@ -1,0 +1,47 @@
+{
+  "server": { "name": "support-stub", "version": "1.2.3" },
+  "models": ["stub-large", "stub-mini"],
+  "options": {
+    "defaultProfile": "instant",
+    "clock": "fixed",
+    "embeddingDims": 32,
+    "strictModels": true,
+    "cors": true
+  },
+  "profiles": {
+    "slow-net": { "ttftMs": 800, "interChunkMs": 40, "jitterMs": 20 }
+  },
+  "rules": [
+    {
+      "label": "refund-policy",
+      "when": { "lastUser": { "contains": "refund" } },
+      "reply": "Refunds are processed within 5 business days. You asked: {{message}}"
+    },
+    {
+      "label": "escalation",
+      "when": { "lastUser": { "regex": "\\b(manager|supervisor|human)\\b" } },
+      "reply": {
+        "text": "Connecting you with a specialist now (request #{{call}} on {{server.name}}).",
+        "finishReason": "stop"
+      }
+    },
+    {
+      "label": "rate-limit-once",
+      "when": { "lastUser": { "contains": "flaky" } },
+      "times": 1,
+      "error": {
+        "status": 429,
+        "message": "Rate limit reached (scripted; the retry will succeed)",
+        "code": "rate_limit_exceeded",
+        "retryAfterSeconds": 1
+      }
+    },
+    {
+      "label": "watch-it-render",
+      "when": { "model": "stub-mini", "stream": true },
+      "profile": "slow-net",
+      "reply": "This reply streams over the slow-net profile so you can watch your UI render it chunk by chunk."
+    }
+  ],
+  "fallback": { "mode": "generate", "sentences": 2 }
+}

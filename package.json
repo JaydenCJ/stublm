@@ -1,0 +1,54 @@
+{
+  "name": "stublm",
+  "version": "0.1.0",
+  "description": "Deterministic OpenAI-compatible stub server: scripted replies, seeded streams, realistic SSE timing. Zero runtime dependencies.",
+  "author": "JaydenCJ",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "stublm": "dist/cli.js"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "examples",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test \"tests/*.test.mjs\"",
+    "smoke": "bash scripts/smoke.sh"
+  },
+  "keywords": [
+    "openai",
+    "stub",
+    "mock",
+    "sse",
+    "streaming",
+    "testing",
+    "deterministic",
+    "ci"
+  ],
+  "devDependencies": {
+    "typescript": "^5.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JaydenCJ/stublm.git"
+  },
+  "homepage": "https://github.com/JaydenCJ/stublm#readme",
+  "bugs": {
+    "url": "https://github.com/JaydenCJ/stublm/issues"
+  }
+}

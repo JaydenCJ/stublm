@@ -1,0 +1,43 @@
+{
+  "server": { "name": "toolbot-stub", "version": "2.0.0", "apiKey": "test-key-123" },
+  "models": ["stub-tool"],
+  "options": {
+    "defaultProfile": "instant",
+    "clock": "fixed",
+    "embeddingDims": 8,
+    "strictModels": true,
+    "cors": false
+  },
+  "rules": [
+    {
+      "label": "malformed-arguments",
+      "when": { "lastUser": { "contains": "malformed" } },
+      "reply": {
+        "toolCalls": [
+          { "name": "get_weather", "arguments": "{\"city\": \"Osaka\", \"unit\":" }
+        ]
+      }
+    },
+    {
+      "label": "parallel-tools",
+      "when": { "lastUser": { "contains": "compare" } },
+      "reply": {
+        "toolCalls": [
+          { "name": "get_weather", "arguments": { "city": "Osaka", "unit": "c" } },
+          { "name": "get_weather", "arguments": { "city": "Sapporo", "unit": "c" } }
+        ]
+      }
+    },
+    {
+      "label": "weather-tool",
+      "when": { "hasTool": "get_weather" },
+      "reply": {
+        "text": "Let me check that for you.",
+        "toolCalls": [
+          { "name": "get_weather", "arguments": { "city": "Osaka", "unit": "c" } }
+        ]
+      }
+    }
+  ],
+  "fallback": { "mode": "echo", "sentences": 1 }
+}
