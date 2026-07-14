@@ -2,7 +2,7 @@
   "name": "stublm",
   "version": "0.1.0",
   "description": "Deterministic OpenAI-compatible stub server: scripted replies, seeded streams, realistic SSE timing. Zero runtime dependencies.",
-  "author": "JaydenCJ",
+  "author": "JaydenCJ <aisingioro.kiyon@gmail.com>",
   "license": "MIT",
   "type": "module",
   "bin": {
